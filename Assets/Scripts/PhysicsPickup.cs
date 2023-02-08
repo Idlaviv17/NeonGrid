@@ -29,6 +29,7 @@ public class PhysicsPickup : MonoBehaviour
             {
                 CurrentObject = HitInfo.rigidbody;
                 CurrentObject.useGravity = false;
+                CurrentObject.freezeRotation = true;
             }
         }
     }
