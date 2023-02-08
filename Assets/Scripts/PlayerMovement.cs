@@ -4,47 +4,39 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private Vector3 PlayerMovementInput;
-    private Vector2 PlayerMouseInput;
-    private float xRotation;
+    private Vector3 velocity;
+    private bool isGrounded;
 
-    [SerializeField] private LayerMask FloorMask;
-    [SerializeField] private Transform FeetTransform;
-    [SerializeField] private Transform PlayerCamera;
-    [SerializeField] private Rigidbody PlayerBody;
-    [Space]
+    [SerializeField] private CharacterController controller;
     [SerializeField] private float Speed;
-    [SerializeField] private float Sensitivity;
-    [SerializeField] private float Jumpforce;
+    [SerializeField] private float Gravity = -9.81f;
+    [SerializeField] private Transform GroundCheck;
+    [SerializeField] private float GroundDistance = 0.2f;
+    [SerializeField] private LayerMask FloorMask;
+    [SerializeField] private float JumpHeight;
 
-    private void Update()
-    {
-        PlayerMovementInput = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
-        PlayerMouseInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+    private void Update() {
+        isGrounded = Physics.CheckSphere(GroundCheck.position, GroundDistance, FloorMask);
 
-        MovePlayer();
-        MovePlayerCamera();
-    }
-
-    private void MovePlayer()
-    {
-        Vector3 MoveVector = transform.TransformDirection(PlayerMovementInput) * Speed;
-        PlayerBody.velocity = new Vector3(MoveVector.x, PlayerBody.velocity.y, MoveVector.z);
-
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (isGrounded && velocity.y < 0)
         {
-            if (Physics.CheckSphere(FeetTransform.position, 0.1f, FloorMask))
-            {
-                PlayerBody.AddForce(Vector3.up * Jumpforce, ForceMode.Impulse);
-            }  
+            velocity.y = -0.2f;
         }
-    }
 
-    private void MovePlayerCamera()
-    {
-        xRotation -= PlayerMouseInput.y * Sensitivity;
+        float x = Input.GetAxis("Horizontal");
+        float z = Input.GetAxis("Vertical");
 
-        transform.Rotate(0f, PlayerMouseInput.x * Sensitivity, 0f);
-        PlayerCamera.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        Vector3 move = (transform.right * x) + (transform.forward * z);
+
+        controller.Move(move * Speed * Time.deltaTime);
+
+        if (Input.GetButtonDown("Jump") && isGrounded)
+        {
+            velocity.y = Mathf.Sqrt(JumpHeight * -2f * Gravity);
+        }
+
+        velocity.y += Gravity * Time.deltaTime;
+
+        controller.Move(velocity * Time.deltaTime);
     }
 }
