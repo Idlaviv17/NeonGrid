@@ -12,6 +12,10 @@ public class PhysicsPickup : MonoBehaviour
     [SerializeField] private Transform PickupTarget;
     [Space]
     [SerializeField] private float PickupRange;
+    [Space]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip PickUpAudio;
+    [SerializeField] private AudioClip ErrorAudio;
 
     private void Update()
     {
@@ -25,11 +29,16 @@ public class PhysicsPickup : MonoBehaviour
             }
 
             Ray CameraRay = PlayerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
-            if (Physics.Raycast(CameraRay, out RaycastHit HitInfo, PickupRange, PickupMask));
+            if (Physics.Raycast(CameraRay, out RaycastHit HitInfo, PickupRange, PickupMask))
             {
                 CurrentObject = HitInfo.rigidbody;
                 CurrentObject.useGravity = false;
                 CurrentObject.freezeRotation = true;
+                audioSource.PlayOneShot(PickUpAudio);
+            }
+            else
+            {
+                audioSource.PlayOneShot(ErrorAudio);
             }
         }
     }
