@@ -8,9 +8,12 @@ public class CubeSounds : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.relativeVelocity.magnitude > 3)
+        if (collision.gameObject.name != "Player")
         {
-            impactSound.Play();
+            if (collision.relativeVelocity.magnitude > 3)
+            {
+                impactSound.Play();
+            }
         }
     }
 }

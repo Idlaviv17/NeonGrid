@@ -24,6 +24,7 @@ public class PhysicsPickup : MonoBehaviour
             if (CurrentObject)
             {
                 CurrentObject.useGravity = true;
+                CurrentObject.freezeRotation = false; // set freezeRotation to false to allow the object to rotate again
                 CurrentObject = null;
                 return;
             }
