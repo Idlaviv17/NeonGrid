@@ -16,7 +16,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask FloorMask;
     [SerializeField] private float JumpHeight;
 
-    private void Update() {
+    private void Update()
+    {
         isGrounded = Physics.CheckSphere(GroundCheck.position, GroundDistance, FloorMask);
 
         if (isGrounded && velocity.y < 0)
@@ -46,5 +47,15 @@ public class PlayerMovement : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            ResetScene();
+        }
+    }
+
+    private void ResetScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

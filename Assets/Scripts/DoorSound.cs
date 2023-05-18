@@ -27,7 +27,7 @@ public class DoorSound : MonoBehaviour
 
         if (doorIsOpening && !doorIsClosing)
         {
-            doorSound.Play();
+            //doorSound.Play();
             Debug.Log("Door sound");
         }
         
