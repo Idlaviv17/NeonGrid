@@ -6,7 +6,7 @@ public class CubeLevitation : MonoBehaviour
 {
     public GameObject cube;
     public float limitPosition;
-    public AudioSource destructionSound;
+    //public AudioSource destructionSound;
     private float actualPosition;
     private Material ogMaterial;
     private Material actualMaterial;
@@ -51,6 +51,7 @@ public class CubeLevitation : MonoBehaviour
 
             if (actualPosition >= limitPosition + 5)
             {
+                //destructionSound.Play();
                 Destroy(cube);
             }
         }

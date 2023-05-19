@@ -1,18 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LastLevel : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public string levelName;
+    public GameObject player;
+    public GameObject activationArea;
+
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.gameObject == player)
+        {
+            LoadLevel(levelName);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void LoadLevel(string levelName)
     {
-        
+        SceneManager.LoadScene(levelName);
     }
 }
