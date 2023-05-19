@@ -45,7 +45,7 @@ void Update()
             }
             else if (activationAxis.Equals("Z"))
             {
-                if (sceneName == "level4")
+                if (sceneName == "level4" || sceneName == "level6")
                 {
                     if (player.transform.position.z <= activationNumber)
                     {
